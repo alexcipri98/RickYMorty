@@ -8,13 +8,22 @@
 import SwiftUI
 
 struct CharacterRowView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    let character: Character
+    private var characterImageViewModel: CharacterImageViewModel {
+        CharacterImageViewModel(character: character)
     }
-}
 
-struct CharacterRowView_Previews: PreviewProvider {
-    static var previews: some View {
-        CharacterRowView()
+    var body: some View {
+        HStack {
+            CharacterImageView(viewModel: characterImageViewModel)
+                .frame(width: 50, height: 50)
+
+            VStack(alignment: .leading) {
+                Text(character.name)
+                    .font(.headline)
+                Text("Status: \(character.status)")
+                    .font(.subheadline)
+            }
+        }
     }
 }

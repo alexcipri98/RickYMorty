@@ -5,16 +5,29 @@
 //  Created by Alex Ciprián López on 30/8/23.
 //
 
+import Foundation
 import SwiftUI
 
-struct ImageCache: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+class ImageCache {
+    static let shared = ImageCache()
+    
+    private var cache: NSCache<NSString, UIImage>
+    
+    private init() {
+        cache = NSCache<NSString, UIImage>()
     }
-}
-
-struct ImageCache_Previews: PreviewProvider {
-    static var previews: some View {
-        ImageCache()
+    
+    func getImage(for url: URL) -> UIImage? {
+        let key = url.absoluteString as NSString
+        return cache.object(forKey: key)
+    }
+    
+    func setImage(_ image: UIImage?, for url: URL) {
+        let key = url.absoluteString as NSString
+        if let image = image {
+            cache.setObject(image, forKey: key)
+        } else {
+            cache.removeObject(forKey: key)
+        }
     }
 }

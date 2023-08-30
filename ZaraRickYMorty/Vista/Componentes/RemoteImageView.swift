@@ -8,13 +8,23 @@
 import SwiftUI
 
 struct RemoteImageView: View {
+    let url: URL?
+    let placeholder: Image
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Group {
+            if let url = url {
+                AsyncImage(url: url) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                } placeholder: {
+                    placeholder
+                }
+            } else {
+                placeholder
+            }
+        }
     }
 }
 
-struct RemoteImageView_Previews: PreviewProvider {
-    static var previews: some View {
-        RemoteImageView()
-    }
-}

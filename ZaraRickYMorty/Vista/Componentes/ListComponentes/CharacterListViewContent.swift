@@ -8,13 +8,27 @@
 import SwiftUI
 
 struct CharacterListViewContent: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+    @ObservedObject var viewModel: CharacterListViewModel
+    let searchText: String
+    let filterStatus: String
+    let selectedSpecies: String
+    let selectedGender: String
 
-struct CharacterListViewContent_Previews: PreviewProvider {
-    static var previews: some View {
-        CharacterListViewContent()
+    var filteredCharacters: [Character] {
+        viewModel.characters.filter { character in
+            (searchText.isEmpty || character.name.localizedCaseInsensitiveContains(searchText))
+                && (filterStatus == "All Status" || character.status == filterStatus)
+                && (selectedSpecies == "All Species" || character.species == selectedSpecies)
+                && (selectedGender == "All Genders" || character.gender == selectedGender)
+        }
+    }
+
+    var body: some View {
+        List(filteredCharacters) { character in
+            NavigationLink(destination: CharacterDetailView(character: character)) {
+                CharacterRowView(character: character)
+            }
+        }
+        .listStyle(PlainListStyle())
     }
 }

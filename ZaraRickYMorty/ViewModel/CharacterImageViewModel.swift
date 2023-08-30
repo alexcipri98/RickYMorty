@@ -5,16 +5,31 @@
 //  Created by Alex Ciprián López on 30/8/23.
 //
 
-import SwiftUI
+import Foundation
+import UIKit
 
-struct CharacterImageViewModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+class CharacterImageViewModel: ObservableObject {
+    @Published var image: UIImage?
+    let character: Character
+
+    init(character: Character) {
+        self.character = character
     }
-}
 
-struct CharacterImageViewModel_Previews: PreviewProvider {
-    static var previews: some View {
-        CharacterImageViewModel()
+    func loadImage() {
+        guard let url = URL(string: character.image) else { return }
+        
+        if let cachedImage = ImageCache.shared.getImage(for: url) {
+            image = cachedImage
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data = data, let downloadedImage = UIImage(data: data) else { return }
+            DispatchQueue.main.async {
+                self.image = downloadedImage
+                ImageCache.shared.setImage(downloadedImage, for: url)
+            }
+        }.resume()
     }
 }

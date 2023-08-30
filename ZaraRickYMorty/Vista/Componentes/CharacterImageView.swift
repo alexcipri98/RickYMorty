@@ -8,13 +8,21 @@
 import SwiftUI
 
 struct CharacterImageView: View {
+    @ObservedObject var viewModel: CharacterImageViewModel
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        if let image = viewModel.image {
+            Image(uiImage: image)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .clipShape(Circle())
+        } else {
+            RemoteImageView(url: URL(string: viewModel.character.image), placeholder: Image(systemName: "person.fill"))
+                .clipShape(Circle())
+                .onAppear {
+                    viewModel.loadImage()
+                }
+        }
     }
 }
 
-struct CharacterImageView_Previews: PreviewProvider {
-    static var previews: some View {
-        CharacterImageView()
-    }
-}

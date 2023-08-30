@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct ZaraRickYMortyApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CharacterListView(viewModel: CharacterListViewModel())
         }
     }
 }

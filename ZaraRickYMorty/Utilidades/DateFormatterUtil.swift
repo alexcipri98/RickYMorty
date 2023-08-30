@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+struct DateFormatterUtil {
+    static func format(date: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter.date(from: date)
+    }
+}

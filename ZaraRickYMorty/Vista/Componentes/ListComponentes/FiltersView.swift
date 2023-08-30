@@ -8,13 +8,34 @@
 import SwiftUI
 
 struct FiltersView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+    @Binding var filterStatus: CharacterFilter.Status
+    @Binding var selectedSpecies: CharacterFilter.Species
+    @Binding var selectedGender: CharacterFilter.Gender
 
-struct FiltersView_Previews: PreviewProvider {
-    static var previews: some View {
-        FiltersView()
+    var body: some View {
+        VStack(spacing: 16) {
+            Picker("Status", selection: $filterStatus) {
+                ForEach(CharacterFilter.Status.allCases, id: \.self) { status in
+                    Text(status.rawValue).tag(status)
+                }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            
+            Picker("Species", selection: $selectedSpecies) {
+                ForEach(CharacterFilter.Species.allCases, id: \.self) { species in
+                    Text(species.rawValue).tag(species)
+                }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            
+            Picker("Gender", selection: $selectedGender) {
+                ForEach(CharacterFilter.Gender.allCases, id: \.self) { gender in
+                    Text(gender.rawValue).tag(gender)
+                }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+        }
+        .padding(16)
+        .background(Color(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
     }
 }

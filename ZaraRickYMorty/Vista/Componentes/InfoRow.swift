@@ -8,13 +8,19 @@
 import SwiftUI
 
 struct InfoRow: View {
+    let title: String
+    let value: String
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            Text(title)
+                .font(.headline)
+                .foregroundColor(.secondary)
+            Spacer()
+            Text(value)
+                .font(.subheadline)
+                .fontWeight(.bold)
+        }
     }
 }
 
-struct InfoRow_Previews: PreviewProvider {
-    static var previews: some View {
-        InfoRow()
-    }
-}

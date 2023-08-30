@@ -8,13 +8,23 @@
 import SwiftUI
 
 struct SearchBarView: View {
+    @Binding var searchText: String
+    @Binding var showFilters: Bool
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct SearchBarView_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchBarView()
+        HStack {
+            TextField("Search", text: $searchText)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(16)
+                .background(Color(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
+            
+            Button(action: {
+                showFilters.toggle()
+            }) {
+                Text("Filters")
+                    .font(.headline)
+            }
+            .padding(.trailing, 16)
+        }
     }
 }
